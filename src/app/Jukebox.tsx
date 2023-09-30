@@ -9,6 +9,7 @@ export default function Jukebox() {
   const [showPlayer, setShowPlayer] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  const [url, SetURL] = useState<string>("https://www.youtube.com/watch?v=ydYDqZQpim8")
   const { socket } = useMultiplayer();
 
   useEffect(() => {
@@ -18,6 +19,10 @@ export default function Jukebox() {
       if (msg.type === "playback") {
         ensurePlaybackState(msg.state);
       }
+      if(msg.type == "url"){
+        SetURL(msg.url)
+      }
+
     };
     socket.addEventListener("message", handleMessage);
     return () => {
@@ -103,7 +108,7 @@ export default function Jukebox() {
           <div className="fixed top-0" style={containerStyle}>
             <div className="absolute top-0 left-0 right-0 bottom-0 w-screen h-screen pointer-events-none">
               <ReactPlayer
-                url="https://www.youtube.com/watch?v=ydYDqZQpim8"
+                url={url}
                 muted={isMuted}
                 playing={isPlaying}
                 onReady={(event) => onReady(event)}
@@ -126,6 +131,21 @@ export default function Jukebox() {
           )}
         </>
       )}
+
+            <button
+              className="absolute top-2 left-2 bg-red-400 hover:bg-red-500 text-white font-4xl z-10 px-1 cursor-pointer"
+              onClick={() => {
+                durl = document.querySelector("#urlinput").value
+                SetURL(durl)
+              }
+            } 
+              
+            >
+              Submit
+              <br />
+              <input id="urlinput">Enter URL</input>
+            </button>
+
     </div>
   );
 }

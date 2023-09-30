@@ -16,6 +16,11 @@ type ConnectionsMessage = {
   count: number;
 };
 
+type URL = {
+  type: "url"
+  url: "https://www.youtube.com/watch?v=ydYDqZQpim8"
+}
+
 export default class Jukebox implements PartyKitServer {
   constructor(public party: Party) {}
 
@@ -34,6 +39,10 @@ export default class Jukebox implements PartyKitServer {
       }
       case "chat": {
         this.party.broadcast(message as string, [connection.id]);
+        break;
+      }
+      case "url": {
+        this.party.broadcast(message as string)
         break;
       }
     }

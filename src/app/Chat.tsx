@@ -10,11 +10,14 @@ type ChatMessage = {
   message: string;
 };
 
+
+
 const MAX_MESSAGES = 10;
 
 export default function Chat() {
   const [name, setName] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+
   const { socket } = useMultiplayer();
 
   useEffect(() => {
